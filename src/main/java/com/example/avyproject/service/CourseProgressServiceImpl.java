@@ -118,7 +118,9 @@ public class CourseProgressServiceImpl implements CourseProgressService {
     public List<CourseProgressDto> getAllCourseProgresses() {
         List<CourseProgress> courseProgresses = courseProgressRepository.findAll();
         log.info("Get all course progresses.");
-        return courseProgressDtoConverter.courseProgressToDtos(courseProgresses);
+        return courseProgresses.stream()
+                .map(courseProgress -> courseProgressDtoConverter.courseProgressToDto(courseProgress))
+                .toList();
     }
 
     /**

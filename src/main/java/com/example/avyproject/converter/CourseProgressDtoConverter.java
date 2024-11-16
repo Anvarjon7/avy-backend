@@ -35,13 +35,13 @@ public class CourseProgressDtoConverter {
         return map;
     }
 
-    public List<CourseProgressDto> courseProgressToDtos(List<CourseProgress> courseProgresses) {
-        List<CourseProgressDto>  courseProgressDtos = new LinkedList<>();
-        for (CourseProgress item: courseProgresses) {
-            courseProgressDtos.add(mapper.map(item, CourseProgressDto.class));
-        }
-        return courseProgressDtos;
-    }
+//    public List<CourseProgressDto> courseProgressToDtos(List<CourseProgress> courseProgresses) {
+//        List<CourseProgressDto>  courseProgressDtos = new LinkedList<>();
+//        for (CourseProgress item: courseProgresses) {
+//            courseProgressDtos.add(mapper.map(item, CourseProgressDto.class));
+//        }
+//        return courseProgressDtos;
+//    }
 
     public CourseProgressDto courseProgressToDto(CourseProgress courseProgress) {
         CourseProgressDto map = mapper.map(courseProgress, CourseProgressDto.class);
