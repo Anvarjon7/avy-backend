@@ -35,6 +35,7 @@ com\example\avyproject\enums\AwardType.class
 com\example\avyproject\dto\AvyUserConverter$AvyUserConverterBuilder.class
 com\example\avyproject\entity\Award.class
 com\example\avyproject\controller\AvyModuleController.class
+com\example\avyproject\service\ChatMessageService.class
 com\example\avyproject\exceptions\ExceptionHandler.class
 com\example\avyproject\dto\lesson\TextLessonDto.class
 com\example\avyproject\dto\AvyUserDto.class
@@ -42,8 +43,10 @@ com\example\avyproject\entity\AvyUser$AvyUserBuilder.class
 com\example\avyproject\exceptions\NoFileAttachedException.class
 com\example\avyproject\service\AwardService.class
 com\example\avyproject\dto\CourseFullDto.class
+com\example\avyproject\entity\ChatMessage$ChatMessageBuilder.class
 com\example\avyproject\repository\RoleRepository.class
 com\example\avyproject\service\JwtService.class
+com\example\avyproject\entity\ChatMessage.class
 com\example\avyproject\entity\AvyUser.class
 com\example\avyproject\controller\TextLessonController.class
 com\example\avyproject\entity\Course.class
@@ -111,6 +114,7 @@ com\example\avyproject\enums\payment\SubscriptionType.class
 com\example\avyproject\controller\CourseController.class
 com\example\avyproject\dto\AchievementDto.class
 com\example\avyproject\service\AuthService.class
+com\example\avyproject\dto\ChatMessageDto.class
 com\example\avyproject\exceptions\CourseProgressNotFoundException.class
 com\example\avyproject\repository\TextLessonRepository.class
 com\example\avyproject\dto\OfferDto.class
@@ -128,6 +132,7 @@ com\example\avyproject\dto\CreateOfferDto.class
 com\example\avyproject\dto\CourseDto$CourseDtoBuilder.class
 com\example\avyproject\service\LessonProgressService.class
 com\example\avyproject\entity\VideoLesson.class
+com\example\avyproject\dto\ChatMessageDto$ChatMessageDtoBuilder.class
 com\example\avyproject\controller\payment\SubscriptionController.class
 com\example\avyproject\dto\AdminUserDto$AdminUserDtoBuilder.class
 com\example\avyproject\entity\CourseProgress$CourseProgressBuilder.class
@@ -141,6 +146,7 @@ com\example\avyproject\controller\ImageController.class
 com\example\avyproject\dto\AvyUserAuthDto.class
 com\example\avyproject\repository\AchievementRepository.class
 com\example\avyproject\entity\Offer$OfferBuilder.class
+com\example\avyproject\repository\ChatMessageRepository.class
 com\example\avyproject\controller\payment\SessionController.class
 com\example\avyproject\repository\AvyModuleRepository.class
 com\example\avyproject\service\utility\RelativePathConverter.class
@@ -156,6 +162,7 @@ com\example\avyproject\dto\CourseFullDto$CourseFullDtoBuilder.class
 com\example\avyproject\service\strategy\VideoLessonStrategy.class
 com\example\avyproject\converter\OfferDtoConverter.class
 com\example\avyproject\repository\CourseRepository.class
+com\example\avyproject\converter\ChatMessageDtoConverter.class
 com\example\avyproject\service\TextLessonServiceImpl.class
 com\example\avyproject\service\ModuleItemService.class
 com\example\avyproject\entity\UserProgress.class
@@ -186,6 +193,7 @@ com\example\avyproject\service\TextLessonService.class
 com\example\avyproject\service\RoleService.class
 com\example\avyproject\converter\ModuleItemDtoConverter.class
 com\example\avyproject\repository\ModuleItemRepository.class
+com\example\avyproject\service\ChatMessageServiceImpl.class
 com\example\avyproject\entity\Role.class
 com\example\avyproject\dto\AvyUserDto$AvyUserDtoBuilder.class
 com\example\avyproject\controller\AdminController.class
