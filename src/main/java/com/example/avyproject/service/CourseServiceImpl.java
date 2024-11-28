@@ -8,6 +8,7 @@ import com.example.avyproject.entity.AvyUser;
 import com.example.avyproject.entity.Course;
 import com.example.avyproject.exceptions.CourseNotFoundException;
 import com.example.avyproject.repository.CourseRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -16,24 +17,29 @@ import java.util.List;
 import java.util.Objects;
 
 @Service
+@RequiredArgsConstructor
 public class CourseServiceImpl implements CourseService {
-    @Autowired
-    private CourseRepository courseRepository;
-    @Autowired
-    private CourseConverter converter;
-    @Autowired
+    private final CourseRepository courseRepository;
+    private final CourseConverter converter;
+    private final AvyUserService avyUserService;
     // @Qualifier("imageServiceImpl") // or "localImageService"
-    private ImageService imageService;
+    private final ImageService imageService;
+    private RecommendedService recommendedService;
 
-    @Override
-    public Course createCourse(CreateCourseDto createCourseDto, AvyUser creator) {
+    public Course createCourse(CreateCourseDto createCourseDto,AvyUser avyUser, Long id) {
+
         String pathToImage = imageService.uploadImage(createCourseDto.getCourseImage());
         Course course = converter.createCourseDtoToCourse(createCourseDto);
         course.setLinkToImage(pathToImage);
-        course.setCreator(creator);
+        course.setCreator(avyUser);
         courseRepository.save(course);
         // add to recommended to all USER//
         return courseRepository.save(course);
+    }
+
+    @Override
+    public Course createCourse(CreateCourseDto createCourseDto, AvyUser creator) {
+        return null;
     }
 
     @Override

@@ -2,8 +2,10 @@ package com.example.avyproject.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
+import org.hibernate.annotations.Columns;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.springframework.jca.support.LocalConnectionFactoryBean;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -33,7 +35,9 @@ public class CourseProgress {
     private int progress;
     private String status;
     private LocalDate lastAccessed;
-
+    @Column(columnDefinition = "boolean default false")
+    private boolean exited;
+    private LocalDate lastExited;
     @JsonManagedReference
     @OneToMany(mappedBy = "courseProgress")
     private List<LessonProgress> lessonProgresses;

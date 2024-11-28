@@ -157,4 +157,14 @@ public class AvyUserManagementController {
         return ResponseEntity.ok(courseProgressDtoConverter.courseProgressToDto(courseProgress));
     }
 
+    @GetMapping("/exit-course/{courseId}")
+    @PreAuthorize("isAuthenticated()")
+    ResponseEntity<CourseProgressDto> exitCourse(@PathVariable Long courseId,
+                                                 @RequestHeader("Authorization") String authHeader) {
+        AvyUser avyUser = avyUserService.getUserByToken(authHeader.substring(7));
+        Course course = courseService.getEntityById(courseId);
+        log.info("ENDPOINT: exiting course with the id of {}", courseId);
+        return ResponseEntity.ok(courseProgressService.exitCourse(avyUser,course));
+    }
+
 }

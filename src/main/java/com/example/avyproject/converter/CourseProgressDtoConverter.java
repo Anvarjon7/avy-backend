@@ -6,11 +6,9 @@ import com.example.avyproject.dto.CourseProgressDto;
 import com.example.avyproject.dto.CourseProgressFullDto;
 import com.example.avyproject.entity.*;
 import com.example.avyproject.service.*;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -18,30 +16,19 @@ import java.util.stream.Collectors;
 
 @Component
 @Slf4j
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class CourseProgressDtoConverter {
     private final ModelMapper mapper;
-    @Autowired
-    private AchievementService achievementService;
-    @Autowired
-    private AwardService awardService;
-    @Autowired
-    UserProgressService userProgressService;
+    private final AchievementService achievementService;
+    private final AwardService awardService;
+    private final UserProgressService userProgressService;
 
-    public CourseProgress dtoToCourseProgress(CourseProgressDto courseDto, Course course, AvyUser avyUser) {
-        CourseProgress map = mapper.map(courseDto, CourseProgress.class);
+    public CourseProgress dtoToCourseProgress(CourseProgressDto courseProgressDto, Course course, AvyUser avyUser) {
+        CourseProgress map = mapper.map(courseProgressDto, CourseProgress.class);
         map.setCourse(course);
         map.setUser(avyUser);
         return map;
     }
-
-//    public List<CourseProgressDto> courseProgressToDtos(List<CourseProgress> courseProgresses) {
-//        List<CourseProgressDto>  courseProgressDtos = new LinkedList<>();
-//        for (CourseProgress item: courseProgresses) {
-//            courseProgressDtos.add(mapper.map(item, CourseProgressDto.class));
-//        }
-//        return courseProgressDtos;
-//    }
 
     public CourseProgressDto courseProgressToDto(CourseProgress courseProgress) {
         CourseProgressDto map = mapper.map(courseProgress, CourseProgressDto.class);
@@ -129,11 +116,11 @@ public class CourseProgressDtoConverter {
     }
 
     private Lesson findNextLesson (List<LessonProgress> lessonProgresses){
-        // взять все уроки, которые не комплитед
+        // Get all uncompleted lessons
         List <LessonProgress> uncompletedLessons = lessonProgresses.stream()
                 .filter(lessonProgress -> !lessonProgress.isDone())
                 .collect(Collectors.toList());
-        // все не комплитед - упорядочить по ордеру
+        // Order all uncompleted lessons by order value
         List<Lesson> orderedByOrder = uncompletedLessons.stream()
                 .map(LessonProgress::getLesson)
                 .sorted(Comparator.comparing((Lesson lesson) -> lesson.getAvyModule().getModuleOrder())
@@ -157,19 +144,17 @@ public class CourseProgressDtoConverter {
     }
 
     private Lesson findCurrentLesson (List<LessonProgress> lessonProgresses){
-        // взять все уроки, которые не комплитед
+        // Get all completed lessons
         List <LessonProgress> completedLessons = lessonProgresses.stream()
                 .filter(LessonProgress::isDone)
                 .collect(Collectors.toList());
-        // все не комплитед - упорядочить по ордеру
+        // Order all completed lessons by their order value
         List<Lesson> orderedByOrder = completedLessons.stream()
                 .map(LessonProgress::getLesson)
                 .sorted(Comparator.comparing((Lesson lesson) -> lesson.getAvyModule().getModuleOrder())
                         .thenComparing(Lesson::getItemOrder))
                 .collect(Collectors.toList());
-        int lastLessonInRow = orderedByOrder.size();
-        Lesson currenLesson = orderedByOrder.get(lastLessonInRow-1);
-        return currenLesson;
+        return orderedByOrder.getLast();
     }
 
     private List <AchievementDto> getUserAchievements (long userId){

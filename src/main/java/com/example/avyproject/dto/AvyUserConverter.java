@@ -21,26 +21,16 @@ import java.util.stream.Collectors;
 
 @Setter
 @Getter
-@AllArgsConstructor
 @Builder
-@NoArgsConstructor
 @Component
+@RequiredArgsConstructor
 public class AvyUserConverter {
 
-    @Autowired
-    private CourseProgressService courseProgressService;
-    @Lazy
-    @Autowired
-    private CourseProgressDtoConverter courseProgressDtoConverter;
-    @Lazy
-    @Autowired
-    private AchievementService achievementService;
-    @Lazy
-    @Autowired
-    private AwardService awardService;
-    @Lazy
-    @Autowired
-    UserProgressService userProgressService;
+    private final CourseProgressService courseProgressService;
+    private final CourseProgressDtoConverter courseProgressDtoConverter;
+    private final AchievementService achievementService;
+    private final AwardService awardService;
+    private final UserProgressService userProgressService;
 
     public AvyUserDto avyUserToAvyUserDto (AvyUser avyUser){
         AvyUserDto avyUserDto = new AvyUserDto();

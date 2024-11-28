@@ -11,6 +11,7 @@ import java.util.List;
 public interface CourseService {
 
     Course createCourse (CreateCourseDto createCourseDto, AvyUser creator);
+    Course createCourse(CreateCourseDto createCourseDto,AvyUser avyUser, Long id);
     CourseFullDto getById (Long courseId);
     public Course getEntityById(Long courseId);
     CourseFullDto getByIdAndCreatorId(Long courseId,Long creatorId);

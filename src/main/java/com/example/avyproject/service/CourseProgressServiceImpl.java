@@ -14,7 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.Duration;
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -187,10 +189,21 @@ public class CourseProgressServiceImpl implements CourseProgressService {
     public CourseProgressFullDto startCourseByUser(Course course, AvyUser user) {
         // ДОПИСАТЬ ЗАПОЛНЕНИЕ ЛИСТОВ ЛЕССОН ПРОГРЕССОВ ПО ВСЕМ УРОКАМ КУРСА
         // ПОТОМ ПОСТАВИТЬ ЭТО В КУРС ПРОГРЕСС
-
         Optional<CourseProgress> optionalCourseProgress = getCourseProgressByUserIdAndCourseId(user.getId(), course.getId());
+        CourseProgress courseProgress;
         if(optionalCourseProgress.isPresent()){
-            CourseProgress courseProgress = optionalCourseProgress.get();
+            courseProgress = optionalCourseProgress.get();
+            // if a user exited the game before they entered it once again
+            if(courseProgress.isExited()) {
+                // send a message within the chat bubbles functionality,
+                // congratulating user on their comeback,
+                // stating how long they have not attended a certain course
+                Duration duration = Duration.between(courseProgress.getLastExited(), LocalDate.now());
+                log.info("duration of absence extracted: {} days ,{} hours, {} minutes", duration.toDays(), duration.toHours(), duration.toMinutes());
+                // through time period variable we retrieve information on how long user has been absent
+                // and can represent it in the message by retrieving duration.toDays(), duration.toHours(), duration.toMinutes()
+
+            }
             if (courseProgress.getStatus().equals("IN_PROGRESS")){
                 courseProgress.setLastAccessed(LocalDate.now());
                 courseProgressRepository.save(courseProgress);
@@ -205,9 +218,8 @@ public class CourseProgressServiceImpl implements CourseProgressService {
             log.info(courseProgress.toString());
             courseProgressRepository.save(courseProgress);
             log.info("Course progress updated. " + courseProgress);
-            return courseProgressDtoConverter.courseProgressToFullDto(courseProgress);
         } else {
-            CourseProgress courseProgress = new CourseProgress();
+            courseProgress = new CourseProgress();
             courseProgress.setUser(user);
             courseProgress.setCourse(course);
             courseProgress.setLessonProgresses(createLessonProgressesList(course,courseProgress));
@@ -215,8 +227,8 @@ public class CourseProgressServiceImpl implements CourseProgressService {
             courseProgress.setLastAccessed(LocalDate.now());
             courseProgressRepository.save(courseProgress);
             log.info("Course progress created. " + courseProgress);
-            return courseProgressDtoConverter.courseProgressToFullDto(courseProgress);
         }
+        return courseProgressDtoConverter.courseProgressToFullDto(courseProgress);
     }
 
     @Override
@@ -263,6 +275,19 @@ public class CourseProgressServiceImpl implements CourseProgressService {
         return save;
     }
 
+    @Override
+    public CourseProgressDto exitCourse(AvyUser avyUser, Course course) {
+        CourseProgress courseProgress = courseProgressRepository.findCourseProgressByUserIdAndCourseId(avyUser.getId(), course.getId())
+                .orElseThrow(() -> new CourseProgressNotFoundException("Course progress for course id " + course.getId() + " and UserId " + avyUser.getId() + " not found"));
+        courseProgress.setExited(true);
+        courseProgress.setLastExited(LocalDate.now());
+        CourseProgress saved = courseProgressRepository.save(courseProgress);
+        return courseProgressDtoConverter.courseProgressToDto(saved);
+    }
+
+    public boolean courseWasExited(CourseProgress courseProgress) {
+        return courseProgress.isExited();
+    }
     private List<LessonProgress> createLessonProgressesList (Course course, CourseProgress  courseProgress){
         return course.getAvyModuleList().stream()
                 .flatMap(module -> module.getItems().stream())

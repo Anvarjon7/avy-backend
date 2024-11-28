@@ -103,4 +103,5 @@ public interface CourseProgressService {
 
     CourseProgress completeLesson (Lesson lesson, AvyUser avyUser);
 
+    CourseProgressDto exitCourse(AvyUser avyUser, Course course);
 }

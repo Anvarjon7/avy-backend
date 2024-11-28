@@ -9,6 +9,7 @@ import com.example.avyproject.exceptions.AccountNotFoundException;
 import com.example.avyproject.exceptions.RoleNotFoundException;
 import com.example.avyproject.repository.AvyUserRepository;
 import com.example.avyproject.repository.RoleRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -27,7 +28,7 @@ import java.util.stream.Collectors;
 public class AvyUserServiceImpl implements AvyUserService {
 
     @Autowired
-    AvyUserRepository avyUserRepository;
+    private AvyUserRepository avyUserRepository;
     @Autowired
     private AvyUserConverter avyUserConverter;
     @Autowired

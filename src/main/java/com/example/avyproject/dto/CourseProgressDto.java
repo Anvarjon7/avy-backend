@@ -28,4 +28,6 @@ public class CourseProgressDto {
     private String nextModuleTitle;
     private String completedModuleTitle;
     private String nextLessonTitle;
+    private Boolean isExited;
+    private LocalDate lastExited;
 }
