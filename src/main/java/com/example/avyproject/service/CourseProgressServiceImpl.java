@@ -202,7 +202,8 @@ public class CourseProgressServiceImpl implements CourseProgressService {
                 log.info("duration of absence extracted: {} days ,{} hours, {} minutes", duration.toDays(), duration.toHours(), duration.toMinutes());
                 // through time period variable we retrieve information on how long user has been absent
                 // and can represent it in the message by retrieving duration.toDays(), duration.toHours(), duration.toMinutes()
-
+                courseProgress.setExited(false);
+                courseProgress.setLastExited(null);
             }
             if (courseProgress.getStatus().equals("IN_PROGRESS")){
                 courseProgress.setLastAccessed(LocalDate.now());
